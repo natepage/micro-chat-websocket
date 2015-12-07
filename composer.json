@@ -23,7 +23,8 @@
         "doctrine/doctrine-cache-bundle": "^1.2",
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
-        "coresphere/console-bundle": "^0.3.1"
+        "coresphere/console-bundle": "^0.3.1",
+        "gos/web-socket-bundle": "master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

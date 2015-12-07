@@ -1,5 +1,6 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: security.yml }
 
 framework:
     translator: { fallbacks: ["%locale%"] }
@@ -7,3 +8,8 @@ framework:
     templating:
         engines: ['twig']
     assets: ~
+
+gos_web_socket:
+    server:
+        port: 1337
+        host: 192.168.1.66
