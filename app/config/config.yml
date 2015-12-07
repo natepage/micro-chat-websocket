@@ -3,7 +3,6 @@ imports:
 
 framework:
     secret: %secret%
-    profiler: ~
     templating:
         engines: ['twig']
     assets: ~
