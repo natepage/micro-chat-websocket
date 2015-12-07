@@ -12,16 +12,26 @@ class MicroKernel extends Kernel
 
     public function registerBundles()
     {
-        return array(
+        $bundles = array(
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new AppBundle\AppBundle(),
         );
+
+        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+            $bundles[] = new CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
+        }
+
+        return $bundles;
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {
+        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+            $routes->mount('/', $routes->import('@CoreSphereConsoleBundle/Resources/config/routing.yml'));
+        }
+
         $routes->mount('/', $routes->import('@AppBundle/Controller', 'annotation'));
     }
 

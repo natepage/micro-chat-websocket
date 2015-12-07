@@ -22,11 +22,10 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
  * @var Composer\Autoload\ClassLoader $loader
  */
 $loader = require __DIR__.'/../app/autoload.php';
+require_once __DIR__.'/../app/MicroKernel.php';
+
 Debug::enable();
 
-$kernel = new AppKernel('dev', true);
-$kernel->loadClassCache();
-$request = Request::createFromGlobals();
-$response = $kernel->handle($request);
-$response->send();
-$kernel->terminate($request, $response);
+$app = new MicroKernel('dev', true);
+$app->loadClassCache();
+$app->handle(Request::createFromGlobals())->send();

@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
 
 framework:
+    translator: { fallbacks: ["%locale%"] }
     secret: %secret%
     templating:
         engines: ['twig']
