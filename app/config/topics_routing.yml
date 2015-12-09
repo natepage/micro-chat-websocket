@@ -1,0 +1,4 @@
+messages:
+    channel: messages
+    handler:
+        callback: 'messages.topic'

@@ -11,5 +11,8 @@ framework:
 
 gos_web_socket:
     server:
-        port: 1337
-        host: 192.168.1.66
+        port: 8080
+        host: localhost
+        router:
+            resources:
+                - %kernel.root_dir%/config/topics_routing.yml
