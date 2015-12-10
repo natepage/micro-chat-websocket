@@ -16,6 +16,7 @@ class MicroKernel extends Kernel
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),

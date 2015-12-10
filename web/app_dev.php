@@ -22,9 +22,9 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
  * @var Composer\Autoload\ClassLoader $loader
  */
 $loader = require __DIR__.'/../app/autoload.php';
-require_once __DIR__.'/../app/MicroKernel.php';
-
 Debug::enable();
+
+require_once __DIR__.'/../app/MicroKernel.php';
 
 $app = new MicroKernel('dev', true);
 $app->loadClassCache();

@@ -1,0 +1,17 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Micro Chat - Login{% endblock %}
+
+{% block body %}
+    <form class="form-horizontal" action="{{ path('security_login_check') }}" method="post">
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error.messageKey|trans(error.messageData) }}
+            </div>
+        {% endif %}
+
+        {{ form_widget(form) }}
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+{% endblock %}

@@ -3,3 +3,9 @@ services:
         class:  AppBundle\Topics\MessagesTopic
         tags:
             - { name: gos_web_socket.topic }
+
+    micro_chat.form_login_authenticator:
+        class: AppBundle\Security\FormLoginAuthenticator
+        arguments:
+            - "@router"
+            - "@security.password_encoder"

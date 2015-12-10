@@ -14,7 +14,7 @@ class MessagesTopic implements TopicInterface
      *
      * @param  ConnectionInterface $connection
      * @param  Topic $topic
-     * @param WampRequest $request
+     * @param  WampRequest $request
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
@@ -30,7 +30,7 @@ class MessagesTopic implements TopicInterface
      *
      * @param  ConnectionInterface $connection
      * @param  Topic $topic
-     * @param WampRequest $request
+     * @param  WampRequest $request
      */
     public function onUnSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
@@ -46,8 +46,8 @@ class MessagesTopic implements TopicInterface
      *
      * @param  ConnectionInterface $connection
      * @param  Topic $topic
-     * @param WampRequest $request
-     * @param $event
+     * @param  WampRequest $request
+     * @param  $event
      * @param  array $exclude
      * @param  array $eligible
      */
