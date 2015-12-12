@@ -7,13 +7,22 @@ framework:
     secret: %secret%
     templating:
         engines: ['twig']
-    assets: ~
-    profiler: ~
-    form: ~
+    assets:          ~
+    form:            ~
     csrf_protection: ~
     session:
-        handler_id: ~
+        handler_id:  ~
 
+# GOSWebSocket Configuration
+gos_web_socket:
+    server:
+        port: 8080
+        host: localhost
+        router:
+            resources:
+                - %kernel.root_dir%/config/topics_routing.yml
+
+# Doctrine Configuration
 doctrine:
     dbal:
         driver:   pdo_sqlite
@@ -30,10 +39,16 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
-gos_web_socket:
-    server:
-        port: 8080
-        host: localhost
-        router:
-            resources:
-                - %kernel.root_dir%/config/topics_routing.yml
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+# FOSUser Configuration
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: AppBundle\Entity\User
