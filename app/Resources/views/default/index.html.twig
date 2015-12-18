@@ -3,14 +3,10 @@
 {% block title %}Micro Chat{% endblock %}
 
 {% block body %}
-    {{ user.username }}
-    {{ user.password }}
-    {{ user.salt }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-
     <script src="{{ asset('bundles/goswebsocket/js/vendor/autobahn.min.js') }}"></script>
     <script src="{{ asset('bundles/goswebsocket/js/gos_web_socket_client.js') }}"></script>
     <script src="{{ asset('bundles/app/js/micro_chat.js') }}"></script>

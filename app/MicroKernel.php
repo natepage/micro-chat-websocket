@@ -19,7 +19,6 @@ class MicroKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
@@ -40,6 +39,7 @@ class MicroKernel extends Kernel
             $routes->mount('/', $routes->import('@CoreSphereConsoleBundle/Resources/config/routing.yml'));
         }
 
+        $routes->mount('/', $routes->import('@FOSUserBundle/Resources/config/routing/all.xml'));
         $routes->mount('/', $routes->import('@AppBundle/Controller', 'annotation'));
     }
 
