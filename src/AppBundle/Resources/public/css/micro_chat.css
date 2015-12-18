@@ -1,0 +1,17 @@
+#micro-chat-container {
+    height: 90vh;
+    position: relative;
+    overflow: hidden;
+}
+
+#micro-chat-content {
+    max-height: 90%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#micro-chat-form {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

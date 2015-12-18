@@ -1,3 +1,6 @@
+/**
+ * Web Sockets
+ */
 var webSocket = WS.connect("ws://localhost:8080");
 
 webSocket.on("socket/connect", function(session){

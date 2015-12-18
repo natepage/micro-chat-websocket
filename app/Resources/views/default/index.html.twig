@@ -4,16 +4,22 @@
 {% block title %}Micro Chat{% endblock %}
 
 {% block body %}
-    {% if app.user %}
-        Hi {{ app.user.username }}, <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans }}</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% include ':default:micro_chat.html.twig' %}
     {% else %}
-        <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans }}</a>
+        <div class="alert alert-warning">
+            <h4>Out of order</h4>
+            <p>If you want to text here you must be logged !</p>
+        </div>
     {% endif %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/goswebsocket/js/vendor/autobahn.min.js') }}"></script>
-    <script src="{{ asset('bundles/goswebsocket/js/gos_web_socket_client.js') }}"></script>
-    <script src="{{ asset('bundles/app/js/micro_chat.js') }}"></script>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <script src="{{ asset('bundles/goswebsocket/js/vendor/autobahn.min.js') }}"></script>
+        <script src="{{ asset('bundles/goswebsocket/js/gos_web_socket_client.js') }}"></script>
+        <script src="{{ asset('bundles/app/js/micro_chat.js') }}"></script>
+    {% endif %}
 {% endblock %}
