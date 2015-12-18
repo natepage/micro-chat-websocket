@@ -26,4 +26,12 @@ class DefaultController extends Controller
     {
         return $this->render('default/index.html.twig');
     }
+
+    /**
+     * @Route("/create_session_table", name="create_session_table")
+     */
+    public function createSessionTableAction()
+    {
+
+    }
 }

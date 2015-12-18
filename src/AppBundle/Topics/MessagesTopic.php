@@ -2,13 +2,22 @@
 
 namespace AppBundle\Topics;
 
+use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class MessagesTopic implements TopicInterface
 {
+    protected $clientManipulator;
+
+    public function __construct(ClientManipulatorInterface $clientManipulator)
+    {
+        $this->clientManipulator = $clientManipulator;
+    }
+
     /**
      * This will receive any Subscription requests for this topic.
      *
@@ -18,8 +27,16 @@ class MessagesTopic implements TopicInterface
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
+        $user = $this->clientManipulator->getClient($connection);
+
+        if($user instanceof UserInterface){
+            $name = $user->getUsername();
+        } else {
+            $name = $connection->resourceId;
+        }
+
         $broadcast = array(
-            'msg' => $connection->resourceId . " has joined " . $topic->getId()
+            'msg' => $name . " has joined " . $topic->getId()
         );
 
         $topic->broadcast($broadcast);

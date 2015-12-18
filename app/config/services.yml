@@ -1,6 +1,8 @@
 services:
     micro_chat.messages_topic:
         class:  AppBundle\Topics\MessagesTopic
+        arguments:
+            - "@gos_web_socket.websocket.client_manipulator"
         tags:
             - { name: gos_web_socket.topic }
 
@@ -9,3 +11,14 @@ services:
         arguments:
             - "@router"
             - "@security.password_encoder"
+
+    pdo:
+        class: PDO
+        arguments:
+            dsn: sqlite:%database_path%
+        calls:
+            - [ setAttribute, [3, 2] ] # \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION
+
+    session.handler.pdo:
+        class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        arguments: ["@pdo", {lock_mode: 0}]

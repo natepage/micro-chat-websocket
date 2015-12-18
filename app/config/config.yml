@@ -11,7 +11,7 @@ framework:
     form:            ~
     csrf_protection: ~
     session:
-        handler_id:  ~
+        handler_id:  session.handler.pdo
 
 # GOSWebSocket Configuration
 gos_web_socket:
@@ -21,6 +21,9 @@ gos_web_socket:
         router:
             resources:
                 - %kernel.root_dir%/config/topics_routing.yml
+    client:
+        firewall: main
+        session_handler: "@session.handler.pdo"
 
 # Doctrine Configuration
 doctrine:
