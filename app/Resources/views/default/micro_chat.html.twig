@@ -2,12 +2,12 @@
     <div id="micro-chat-content" class="panel-body">
 
     </div>
-    <div id="micro-chat-form" class="panel-footer">
-        <form class="form-horizontal">
+    <div id="micro-chat-form-container" class="panel-footer">
+        <form id="micro-chat-form" class="form-horizontal" autocomplete="off">
             <div class="input-group">
-                <input type="text" name="message-content" class="form-control">
+                <input id="micro-chat-input" type="text" name="message-content" class="form-control">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary">
                         <span class="glyphicon glyphicon-send"></span> Send
                     </button>
                 </div>

@@ -2,20 +2,31 @@
 
 namespace AppBundle\Topics;
 
+use AppBundle\Topics\Messages\ConversationMessage;
+use AppBundle\Topics\Messages\NotificationMessage;
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 class MessagesTopic implements TopicInterface
 {
+    /**
+     * @var \Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface
+     */
     protected $clientManipulator;
 
-    public function __construct(ClientManipulatorInterface $clientManipulator)
+    /**
+     * @var \Symfony\Component\Templating\EngineInterface
+     */
+    protected $templating;
+
+    public function __construct(ClientManipulatorInterface $clientManipulator, EngineInterface $templating)
     {
         $this->clientManipulator = $clientManipulator;
+        $this->templating = $templating;
     }
 
     /**
@@ -27,19 +38,11 @@ class MessagesTopic implements TopicInterface
      */
     public function onSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
+        $content = 'has joined conversation.';
         $user = $this->clientManipulator->getClient($connection);
+        $notification = new NotificationMessage($this->templating, $user, $content);
 
-        if($user instanceof UserInterface){
-            $name = $user->getUsername();
-        } else {
-            $name = $connection->resourceId;
-        }
-
-        $broadcast = array(
-            'msg' => $name . " has joined " . $topic->getId()
-        );
-
-        $topic->broadcast($broadcast);
+        $topic->broadcast(['msg' => $notification->render()], [$connection->WAMP->sessionId]);
     }
 
     /**
@@ -51,11 +54,11 @@ class MessagesTopic implements TopicInterface
      */
     public function onUnSubscribe(ConnectionInterface $connection, Topic $topic, WampRequest $request)
     {
-        $broadcast = array(
-            'msg' => $connection->resourceId . " has left " . $topic->getId()
-        );
+        $content = 'has left conversation.';
+        $user = $this->clientManipulator->getClient($connection);
+        $notification = new NotificationMessage($this->templating, $user, $content);
 
-        $topic->broadcast($broadcast);
+        $topic->broadcast(['msg' => $notification->render()], [$connection->WAMP->sessionId]);
     }
 
     /**
@@ -70,11 +73,10 @@ class MessagesTopic implements TopicInterface
      */
     public function onPublish(ConnectionInterface $connection, Topic $topic, WampRequest $request, $event, array $exclude, array $eligible)
     {
-        $broadcast = array(
-            'msg' => $event
-        );
+        $user = $this->clientManipulator->getClient($connection);
+        $message = new ConversationMessage($this->templating, $user, $event);
 
-        $topic->broadcast($broadcast);
+        $topic->broadcast(['msg' => $message->render()]);
     }
 
     /**

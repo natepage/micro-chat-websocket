@@ -7,10 +7,10 @@
 #micro-chat-content {
     max-height: 90%;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
-#micro-chat-form {
+#micro-chat-form-container {
     position: absolute;
     bottom: 0;
     width: 100%;

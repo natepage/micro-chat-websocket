@@ -4,11 +4,23 @@
 var webSocket = WS.connect("ws://localhost:8080");
 
 webSocket.on("socket/connect", function(session){
-    //session is an Autobahn JS WAMP session.
-    console.log("Successfully Connected!");
+    var form = $('#micro-chat-form');
+    var container = $('#micro-chat-content');
 
     session.subscribe("messages", function(uri, payload){
-        console.log("Received message", payload.msg);
+        container.append(payload.msg);
+        container.scrollTop(container.prop('scrollHeight'));
+    });
+
+    form.submit(function(e){
+        var input = $('#micro-chat-input');
+
+        if(input.val() != ''){
+            session.publish("messages", input.val());
+            input.val('');
+        }
+
+        e.preventDefault();
     });
 });
 

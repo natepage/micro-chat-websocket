@@ -3,6 +3,7 @@ services:
         class:  AppBundle\Topics\MessagesTopic
         arguments:
             - "@gos_web_socket.websocket.client_manipulator"
+            - "@templating"
         tags:
             - { name: gos_web_socket.topic }
 
