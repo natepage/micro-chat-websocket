@@ -2,14 +2,20 @@
  * Web Sockets
  */
 var webSocket = WS.connect("ws://localhost:8080");
+var form = $('#micro-chat-form');
+var container = $('#micro-chat-container');
+var content = $('#micro-chat-content');
+var alert = $('#micro-chat-alert');
+var spinner = $('#micro-chat-spinner');
 
 webSocket.on("socket/connect", function(session){
-    var form = $('#micro-chat-form');
-    var container = $('#micro-chat-content');
+    spinner.addClass('hidden');
+    alert.addClass('hidden');
+    container.removeClass('hidden');
 
     session.subscribe("messages", function(uri, payload){
-        container.append(payload.msg);
-        container.scrollTop(container.prop('scrollHeight'));
+        content.append(payload.msg);
+        content.scrollTop(content.prop('scrollHeight'));
     });
 
     form.submit(function(e){
@@ -25,6 +31,8 @@ webSocket.on("socket/connect", function(session){
 });
 
 webSocket.on("socket/disconnect", function(error){
-    //error provides us with some insight into the disconnection: error.reason and error.code
-    console.log("Disconnected for " + error.reason + " with code " + error.code);
+    var alertContent = '<div class="alert alert-warning">[ ' + error.code + ' ] ' + error.reason + '</div>';
+
+    container.addClass('hidden');
+    alert.html(alertContent).removeClass('hidden');
 });

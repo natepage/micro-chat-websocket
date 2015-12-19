@@ -15,3 +15,7 @@
     bottom: 0;
     width: 100%;
 }
+
+#micro-chat-spinner {
+    text-align: center;
+}
