@@ -34,5 +34,6 @@ webSocket.on("socket/disconnect", function(error){
     var alertContent = '<div class="alert alert-warning">[ ' + error.code + ' ] ' + error.reason + '</div>';
 
     container.addClass('hidden');
+    spinner.addClass('hidden');
     alert.html(alertContent).removeClass('hidden');
 });
