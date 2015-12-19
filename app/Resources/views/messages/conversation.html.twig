@@ -1,0 +1,6 @@
+{% set format = isToday ? 'H:i:s' : 'd/m/Y, H:i' %}
+
+<div class="micro-chat-row">
+    <span class="label label-default">{{ user.username }} ({{ date|date(format) }})</span>
+    <span>{{ content }}</span>
+</div>
