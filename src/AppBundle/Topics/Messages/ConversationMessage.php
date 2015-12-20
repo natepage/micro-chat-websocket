@@ -32,12 +32,16 @@ class ConversationMessage implements MessageInterface
      */
     private $template = 'messages/conversation.html.twig';
 
-    public function __construct(EngineInterface $templating, UserInterface $user, $content, \DateTime $date = null)
+    /**
+     * Sets the message templating.
+     *
+     * @param EngineInterface $templating
+     * @return self
+     */
+    public function setTemplating(EngineInterface $templating)
     {
         $this->templating = $templating;
-        $this->user = $user;
-        $this->content = $content;
-        $this->date = (null === $date) ? new \DateTime() : $date;
+        return $this;
     }
 
     /**
@@ -131,5 +135,15 @@ class ConversationMessage implements MessageInterface
         $now = new \DateTime();
 
         return $now->format('Y-m-d') === $this->date->format('Y-m-d');
+    }
+
+    /**
+     * Return the message type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return 'conversation';
     }
 }

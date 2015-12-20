@@ -2,14 +2,12 @@
 
 namespace AppBundle\Topics;
 
-use AppBundle\Topics\Messages\ConversationMessage;
-use AppBundle\Topics\Messages\NotificationMessage;
+use AppBundle\Topics\Messages\MessagesManager;
 use Gos\Bundle\WebSocketBundle\Client\ClientManipulatorInterface;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
-use Symfony\Component\Templating\EngineInterface;
 
 class MessagesTopic implements TopicInterface
 {
@@ -19,14 +17,14 @@ class MessagesTopic implements TopicInterface
     protected $clientManipulator;
 
     /**
-     * @var \Symfony\Component\Templating\EngineInterface
+     * @var \AppBundle\Topics\Messages\MessagesManager
      */
-    protected $templating;
+    protected $messagesManager;
 
-    public function __construct(ClientManipulatorInterface $clientManipulator, EngineInterface $templating)
+    public function __construct(ClientManipulatorInterface $clientManipulator, MessagesManager $messagesManager)
     {
         $this->clientManipulator = $clientManipulator;
-        $this->templating = $templating;
+        $this->messagesManager = $messagesManager;
     }
 
     /**
@@ -40,9 +38,14 @@ class MessagesTopic implements TopicInterface
     {
         $content = 'has joined conversation.';
         $user = $this->clientManipulator->getClient($connection);
-        $notification = new NotificationMessage($this->templating, $user, $content);
+        $notification = $this->messagesManager->getMessage('notification', $user, $content);
 
         $topic->broadcast(['msg' => $notification->render()], [$connection->WAMP->sessionId]);
+
+        $oldMessages = $this->messagesManager->getMessages();
+        foreach($oldMessages as $message){
+            $topic->broadcast(['msg' => $message->render()], [], [$connection->WAMP->sessionId]);
+        }
     }
 
     /**
@@ -56,7 +59,7 @@ class MessagesTopic implements TopicInterface
     {
         $content = 'has left conversation.';
         $user = $this->clientManipulator->getClient($connection);
-        $notification = new NotificationMessage($this->templating, $user, $content);
+        $notification = $this->messagesManager->getMessage('notification', $user, $content);
 
         $topic->broadcast(['msg' => $notification->render()], [$connection->WAMP->sessionId]);
     }
@@ -74,9 +77,11 @@ class MessagesTopic implements TopicInterface
     public function onPublish(ConnectionInterface $connection, Topic $topic, WampRequest $request, $event, array $exclude, array $eligible)
     {
         $user = $this->clientManipulator->getClient($connection);
-        $message = new ConversationMessage($this->templating, $user, $event);
+        $message = $this->messagesManager->getMessage('conversation', $user, $event);
 
         $topic->broadcast(['msg' => $message->render()]);
+
+        $this->messagesManager->save($message);
     }
 
     /**

@@ -3,9 +3,18 @@
 namespace AppBundle\Topics\Messages;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 interface MessageInterface
 {
+    /**
+     * Sets the message templating.
+     *
+     * @param EngineInterface $templating
+     * @return self
+     */
+    public function setTemplating(EngineInterface $templating);
+
     /**
      * Sets the message content.
      *
@@ -57,4 +66,11 @@ interface MessageInterface
      * @return string
      */
     public function render();
+
+    /**
+     * Return the message type.
+     *
+     * @return string
+     */
+    public function getType();
 }

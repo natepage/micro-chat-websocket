@@ -1,9 +1,15 @@
 services:
+    micro_chat.messages_manager:
+        class: AppBundle\Topics\Messages\MessagesManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@templating"
+
     micro_chat.messages_topic:
         class:  AppBundle\Topics\MessagesTopic
         arguments:
             - "@gos_web_socket.websocket.client_manipulator"
-            - "@templating"
+            - "@micro_chat.messages_manager"
         tags:
             - { name: gos_web_socket.topic }
 

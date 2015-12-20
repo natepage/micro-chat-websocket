@@ -32,12 +32,16 @@ class NotificationMessage implements MessageInterface
      */
     private $template = 'messages/notification.html.twig';
 
-    public function __construct(EngineInterface $templating, UserInterface $user, $content, \DateTime $date = null)
+    /**
+     * Sets the message templating.
+     *
+     * @param EngineInterface $templating
+     * @return self
+     */
+    public function setTemplating(EngineInterface $templating)
     {
         $this->templating = $templating;
-        $this->user = $user;
-        $this->content = $content;
-        $this->date = (null === $date) ? new \DateTime() : $date;
+        return $this;
     }
 
     /**
@@ -117,5 +121,15 @@ class NotificationMessage implements MessageInterface
             'content' => $this->content,
             'user' => $this->user
         ));
+    }
+
+    /**
+     * Return the message type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return 'notification';
     }
 }
